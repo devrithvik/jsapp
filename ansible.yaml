@@ -1,5 +1,4 @@
 - hosts: kuber
-  become: true
   become_user: ubuntu
   tasks:
   - name: coping the files 
@@ -9,6 +8,7 @@
   - name: restart docker
     service: docker
     state: restarted
+    become: true
   - name: running the deployment
     command: kubectl apply -f jsapp.yaml
   
