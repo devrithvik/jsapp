@@ -12,6 +12,7 @@
       name: docker
       state: restarted
     become: true
+    ignore_errors: yes
   - name: running the deployment
     command: kubectl apply -f jsapp.yaml
   
