@@ -1,2 +1,2 @@
 [kuber]
-13.127.190.94
+13.127.190.94 ansible_user=ubuntu
