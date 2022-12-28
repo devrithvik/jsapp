@@ -3,11 +3,12 @@
   tasks:
   - name: coping the files 
     copy: 
-     src: jsapp.yaml
-     dest: /home/ubuntu
+      src: jsapp.yaml
+      dest: /home/ubuntu
   - name: restart docker
-    service: docker
-    state: restarted
+    service:
+      name: docker
+      state: restarted
     become: true
   - name: running the deployment
     command: kubectl apply -f jsapp.yaml
