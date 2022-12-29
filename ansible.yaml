@@ -1,7 +1,7 @@
 - hosts: kuber
   become_user: ubuntu
   vars:
-  - ansible_become_pass: "9704"
+  - ansible_become_pass: {{pass}}
   tasks:
   - name: coping the files 
     copy: 

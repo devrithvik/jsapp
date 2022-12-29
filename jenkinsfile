@@ -32,8 +32,8 @@ userRemoteConfigs: [[credentialsId: 'gitcred', url: 'https://github.com/devrithv
         stage('k8s deploy with ansible') {
             steps {
                 script{
-                   ansiblePlaybook credentialsId: 'privatekey', disableHostKeyChecking: true, 
-installation: 'ansible', inventory: 'kuber.inv', playbook: 'ansible.yaml'                }        
+            ansiblePlaybook credentialsId: 'privatekey', installation: 'ansible', inventory: 'kuber.inv', playbook: 'ansible.yaml', vaultCredentialsId: 'ansible-pass'            }
+                }        
             }
         }  
     }
