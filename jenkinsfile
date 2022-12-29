@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+    environment {
+    dockerImage = ''
+    registry = 'rithvikyadavdocker/jsapp'
+    }
+
+    stages {
+         stage('git') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], extensions: [], 
+userRemoteConfigs: [[credentialsId: 'gitcred', url: 'https://github.com/devrithvik/jsapp.git']]])
+                
+              }
+            }
+       stage('docker build') {
+            steps {
+                script{
+                    dockerImage = docker.build("${registry}:$BUILD_NUMBER")
+                }        
+            }
+        }
+         stage('docker push') {
+            steps {
+                script {
+             withDockerRegistry(credentialsId: 'docker-cred', url: '') {
+                      dockerImage.push()
+                  }
+              }
+            }
+        }
+        stage('k8s deploy with ansible') {
+            steps {
+                script{
+                   ansiblePlaybook credentialsId: 'privatekey', disableHostKeyChecking: true, 
+installation: 'ansible', inventory: 'kuber.inv', playbook: 'ansible.yaml'                }        
+            }
+        }  
+    }
+}    
+    
+
